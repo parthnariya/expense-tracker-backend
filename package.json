@@ -11,13 +11,20 @@
     "format": "prettier --write src/**/*.{ts,json,md}",
     "format:check": "prettier --check src/**/*.{ts,json,md}",
     "type-check": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push --config=drizzle.config.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hono/node-server": "^1.14.4",
+    "@neondatabase/serverless": "^1.0.1",
+    "dotenv": "^17.0.0",
+    "drizzle-orm": "^0.44.2",
     "hono": "^4.8.3"
   },
   "devDependencies": {
@@ -25,6 +32,7 @@
     "@types/node": "^24.0.7",
     "@typescript-eslint/eslint-plugin": "^8.35.0",
     "@typescript-eslint/parser": "^8.35.0",
+    "drizzle-kit": "^0.31.4",
     "eslint": "^9.30.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
