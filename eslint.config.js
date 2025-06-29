@@ -93,6 +93,9 @@ export default [
   // Disable prettier for non-code files
   {
     files: ['*.json', '*.md', '*.yml', '*.yaml'],
+    languageOptions: {
+      parser: null,
+    },
     plugins: {
       prettier: prettier,
     },
