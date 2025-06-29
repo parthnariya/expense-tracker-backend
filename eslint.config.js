@@ -33,7 +33,17 @@ export default [
       // Prettier integration
       'prettier/prettier': 'error',
 
-      // Additional rules
+      // Import sorting and organization
+      'sort-imports': [
+        'error',
+        {
+          ignoreCase: false,
+          ignoreDeclarationSort: false,
+          ignoreMemberSort: false,
+          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+          allowSeparatedGroups: true,
+        },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_' },
@@ -49,6 +59,13 @@ export default [
       'no-duplicate-imports': 'error',
       'no-unused-expressions': 'error',
       'prefer-const': 'error',
+
+      // Blank lines after imports
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: 'import', next: '*' },
+        { blankLine: 'any', prev: 'import', next: 'import' },
+      ],
     },
   },
 
