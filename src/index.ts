@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import '@/types/hono.ts';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { Hono } from 'hono';
 import { config } from '@/config/index.ts';

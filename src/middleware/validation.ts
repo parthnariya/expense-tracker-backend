@@ -7,12 +7,23 @@ export type BaseValidatedData = {
   params?: unknown;
 };
 
+export type ValidatedData<
+  TBody = unknown,
+  TQuery = unknown,
+  TParams = unknown,
+> = {
+  body?: TBody;
+  query?: TQuery;
+  params?: TParams;
+};
+
 export const validateBody = <T extends z.ZodType>(schema: T) => {
   return async (c: Context, next: Next) => {
     try {
-      const body = await c.req.json();
-      const validatedBody = schema.parse(body);
-      c.set('validated', { ...c.get('validated'), body: validatedBody });
+      const body: unknown = await c.req.json();
+      const validatedBody = schema.parse(body) as z.infer<T>;
+      const currentValidated = c.get('validated') || {};
+      c.set('validated', { ...currentValidated, body: validatedBody });
       await next();
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -27,8 +38,11 @@ export const validateBody = <T extends z.ZodType>(schema: T) => {
 export const validateQuery = <T extends z.ZodType>(schema: T) => {
   return async (c: Context, next: Next) => {
     try {
-      const query = Object.fromEntries(c.req.query());
-      const validated = schema.parse(query);
+      const queryParams = c.req.query();
+      const query: Record<string, string> = Object.fromEntries(
+        Object.entries(queryParams)
+      );
+      const validated = schema.parse(query) as z.infer<T>;
       c.set('validated', { ...c.get('validated'), query: validated });
       await next();
     } catch (error) {
@@ -43,8 +57,8 @@ export const validateQuery = <T extends z.ZodType>(schema: T) => {
 export const validateParams = <T extends z.ZodType>(schema: T) => {
   return async (c: Context, next: Next) => {
     try {
-      const params = c.req.param();
-      const validated = schema.parse(params);
+      const params: Record<string, string> = c.req.param();
+      const validated = schema.parse(params) as z.infer<T>;
       c.set('validated', { ...c.get('validated'), params: validated });
       await next();
     } catch (error) {
