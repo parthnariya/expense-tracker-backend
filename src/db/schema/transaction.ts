@@ -1,5 +1,5 @@
 import {
-  decimal,
+  integer,
   pgEnum,
   pgTable,
   text,
@@ -21,7 +21,7 @@ export const transactions = pgTable('transactions', {
     .references(() => spaces.id, { onDelete: 'cascade' }),
   title: text('title').notNull(),
   description: text('description'),
-  amount: decimal('amount', { precision: 10, scale: 2 }).notNull(),
+  amount: integer('amount').notNull(),
   type: transactionTypeEnum('type').notNull(),
   category: text('category'),
   date: timestamp('date').notNull().defaultNow(),
