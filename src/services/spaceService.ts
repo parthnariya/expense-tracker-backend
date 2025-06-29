@@ -1,0 +1,44 @@
+import { type NewSpace, type Space, spaces } from '@/db/schema/spaces.ts';
+import { ApiError } from '@/types/api.ts';
+import type { CreateSpaceInput } from '@/types/validation.ts';
+import { db } from '@/config/index.ts';
+
+export class SpaceService {
+  /**
+   * Create a new space
+   */
+  static async createSpace(data: CreateSpaceInput): Promise<Space> {
+    try {
+      const newSpace: NewSpace = {
+        name: data.name,
+        description: data.description || null,
+      };
+
+      const [createdSpace] = await db
+        .insert(spaces)
+        .values(newSpace)
+        .returning();
+
+      if (!createdSpace) {
+        throw new ApiError('Failed to create space', 500, 'CREATE_FAILED');
+      }
+
+      return createdSpace;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+
+      // Handle database constraint violations
+      if (error instanceof Error && error.message.includes('duplicate')) {
+        throw new ApiError(
+          'A space with this name already exists',
+          409,
+          'DUPLICATE_SPACE'
+        );
+      }
+
+      throw new ApiError('Failed to create space', 500, 'DATABASE_ERROR');
+    }
+  }
+}
