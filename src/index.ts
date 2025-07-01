@@ -8,6 +8,7 @@ import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import { serve } from '@hono/node-server';
 import spaces from '@/routes/spaces.ts';
+// import importTransactions from '../devHelperScripts/importTransactions.ts';
 
 const app = new Hono();
 
@@ -61,3 +62,4 @@ serve(
     );
   }
 );
+// await importTransactions();
