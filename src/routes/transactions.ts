@@ -19,6 +19,12 @@ transactions.get(
   TransactionController.getTransactions.bind(TransactionController)
 );
 
+// GET /api/spaces/:spaceId/transactions/summary - Fetch total income and total expense
+transactions.get(
+  '/summary',
+  TransactionController.getSummary.bind(TransactionController)
+);
+
 // POST /api/spaces/:spaceId/transactions - Add a new transaction
 transactions.post(
   '/',

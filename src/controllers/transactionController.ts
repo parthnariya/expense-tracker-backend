@@ -134,4 +134,10 @@ export class TransactionController {
       )
     );
   }
+
+  static async getSummary(c: Context) {
+    const spaceId = c.req.param('spaceId');
+    const summary = await TransactionService.getSummary(spaceId);
+    return c.json(createApiResponse(summary, c.req.path));
+  }
 }

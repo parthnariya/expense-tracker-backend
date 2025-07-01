@@ -148,4 +148,25 @@ export class TransactionService {
 
     return !!deletedTransaction;
   }
+
+  static async getSummary(spaceId: string) {
+    const [{ total: totalIncome = 0 }] = await db
+      .select({ total: sql<number>`COALESCE(SUM(${transactions.amount}), 0)` })
+      .from(transactions)
+      .where(
+        and(eq(transactions.spaceId, spaceId), eq(transactions.type, 'income'))
+      );
+
+    const [{ total: totalExpense = 0 }] = await db
+      .select({ total: sql<number>`COALESCE(SUM(${transactions.amount}), 0)` })
+      .from(transactions)
+      .where(
+        and(eq(transactions.spaceId, spaceId), eq(transactions.type, 'expense'))
+      );
+
+    return {
+      totalIncome: Number(totalIncome),
+      totalExpense: Number(totalExpense),
+    };
+  }
 }
