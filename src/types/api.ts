@@ -49,6 +49,27 @@ export const createApiResponse = <T>(
   },
 });
 
+export const createPaginationResponse = <T>(
+  data: T[],
+  path: string,
+  paginationData: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  }
+): PaginatedResponse<T> => {
+  return {
+    success: true,
+    data,
+    meta: {
+      timestamp: new Date().toISOString(),
+      path,
+      pagination: paginationData,
+    },
+  };
+};
+
 export const createErrorResponse = (
   error: ApiError,
   path: string

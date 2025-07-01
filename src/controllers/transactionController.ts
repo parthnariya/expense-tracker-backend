@@ -2,6 +2,7 @@ import {
   ApiError,
   createApiResponse,
   createErrorResponse,
+  createPaginationResponse,
 } from '@/types/api.ts';
 import {
   CreateTransactionInput,
@@ -47,12 +48,16 @@ export class TransactionController {
       pagination.limit = parseInt(query.limit);
     }
 
-    const result = await TransactionService.getTransactions(
-      spaceId,
-      filters,
-      pagination
+    const { limit, page, total, totalPages, transactions } =
+      await TransactionService.getTransactions(spaceId, filters, pagination);
+    return c.json(
+      createPaginationResponse(transactions, c.req.path, {
+        page,
+        limit,
+        total,
+        totalPages,
+      })
     );
-    return c.json(createApiResponse(result, c.req.path));
   }
 
   static async getTransaction(c: Context) {

@@ -29,7 +29,6 @@ export const validateBody = <T extends z.ZodType>(schema: T) => {
       if (error instanceof z.ZodError) {
         throw error;
       }
-      console.log({ error });
       throw new Error('Invalid JSON body');
     }
   };
