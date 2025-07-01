@@ -6,6 +6,8 @@ import { validateBody } from '@/middleware/validation.ts';
 
 const spaces = new Hono();
 
+spaces.get('/:id', SpaceController.getSpaceById.bind(SpaceController));
+
 spaces.post(
   '/',
   validateBody(createSpaceSchema),

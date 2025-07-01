@@ -11,4 +11,13 @@ export class SpaceController {
     const space = await SpaceService.createSpace(data);
     return c.json(createApiResponse(space, c.req.path), 201);
   }
+
+  static async getSpaceById(c: Context) {
+    const id = c.req.param('id');
+    const space = await SpaceService.getSpaceById(id);
+    if (!space) {
+      return c.json({ error: 'Space not found' }, 404);
+    }
+    return c.json(createApiResponse(space, c.req.path));
+  }
 }

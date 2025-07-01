@@ -2,6 +2,7 @@ import { type NewSpace, type Space, spaces } from '@/db/schema/spaces.ts';
 import { ApiError } from '@/types/api.ts';
 import type { CreateSpaceInput } from '@/types/validation.ts';
 import { db } from '@/config/index.ts';
+import { eq } from 'drizzle-orm';
 
 export class SpaceService {
   /**
@@ -39,6 +40,26 @@ export class SpaceService {
       }
 
       throw new ApiError('Failed to create space', 500, 'DATABASE_ERROR');
+    }
+  }
+
+  /**
+   * Get a space by id
+   */
+  static async getSpaceById(id: string): Promise<Space | null> {
+    try {
+      const [space] = await db
+        .select()
+        .from(spaces)
+        .where(eq(spaces.id, id))
+        .limit(1);
+      return space || null;
+    } catch (error) {
+      if (error instanceof ApiError) {
+        throw error;
+      }
+
+      throw new ApiError('Failed to fetch space', 500, 'DATABASE_ERROR');
     }
   }
 }
