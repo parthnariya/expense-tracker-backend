@@ -1,6 +1,6 @@
 import {
   createTransactionSchema,
-  spaceIdSchema,
+  // spaceIdSchema,
   transactionIdSchema,
   updateTransactionSchema,
 } from '@/types/validation.ts';
@@ -11,7 +11,7 @@ import { TransactionController } from '@/controllers/transactionController.ts';
 const transactions = new Hono();
 
 // Apply spaceId validation to all routes
-transactions.use('*', validateParams(spaceIdSchema));
+// transactions.use('*', validateParams(spaceIdSchema));
 
 // GET /api/spaces/:spaceId/transactions - Fetch all transactions with pagination and filters
 transactions.get(
