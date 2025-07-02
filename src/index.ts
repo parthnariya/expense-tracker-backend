@@ -1,14 +1,12 @@
 import 'dotenv/config';
 import '@/types/hono.ts';
-import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { Hono } from 'hono';
-// import { config } from '@/config/index.ts';
 import { cors } from 'hono/cors';
-import { handle } from '@hono/node-server/vercel';
+import { errorHandler } from './middleware/errorHandler.js';
+import { handle } from 'hono/vercel';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import spaces from '@/routes/spaces.ts';
-// import importTransactions from '../devHelperScripts/importTransactions.ts';
 
 const app = new Hono();
 
@@ -28,7 +26,7 @@ app.use(
 app.use('*', errorHandler);
 
 // Health check endpoint
-app.get('/', c => {
+app.get('/api', c => {
   return c.json({
     success: true,
     data: {
@@ -46,14 +44,10 @@ app.get('/', c => {
 // API routes
 app.route('/api/spaces', spaces);
 
-// 404 handler (must be last)
-app.notFound(notFoundHandler);
+const handler = handle(app);
 
-export default handle(app);
-// Start server
-// export default {
-//   port: config.port,
-//   fetch: app.fetch,
-// };
-
-// await importTransactions();
+export const GET = handler;
+export const POST = handler;
+export const PATCH = handler;
+export const PUT = handler;
+export const OPTIONS = handler;

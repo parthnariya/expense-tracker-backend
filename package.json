@@ -3,10 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "build": "tsc && bun run build:vercel",
-    "build:vercel": "bun build src/index.ts --outdir .vercel/output/functions/api --minify --target=bun --entrypoints=src/index.ts --splitting --format=esm",
-    "start": "bun dist/index.js",
+    "start": "vercel dev",
+    "deploy": "vercel",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.{ts,json,md}",
@@ -44,7 +42,8 @@
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0"
+    "typescript-eslint": "^8.35.0",
+    "vercel": "44.2.8"
   },
   "lint-staged": {
     "*.{js,ts}": [
