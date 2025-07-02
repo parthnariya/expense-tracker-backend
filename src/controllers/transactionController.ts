@@ -140,4 +140,12 @@ export class TransactionController {
     const summary = await TransactionService.getSummary(spaceId);
     return c.json(createApiResponse(summary, c.req.path));
   }
+
+  static async getCategoryWiseSpending(c: Context) {
+    const spaceId = c.req.param('spaceId');
+
+    const categorySpending =
+      await TransactionService.getCategoryWiseSpending(spaceId);
+    return c.json(createApiResponse(categorySpending, c.req.path));
+  }
 }

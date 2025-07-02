@@ -169,4 +169,50 @@ export class TransactionService {
       totalExpense: Number(totalExpense),
     };
   }
+
+  static async getCategoryWiseSpending(spaceId: string) {
+    const whereConditions = [
+      eq(transactions.spaceId, spaceId),
+      eq(transactions.type, 'expense'),
+    ];
+
+    const categorySpending = await db
+      .select({
+        category: transactions.category,
+        totalAmount: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
+        transactionCount: sql<number>`COUNT(*)`,
+      })
+      .from(transactions)
+      .where(and(...whereConditions))
+      .groupBy(transactions.category)
+      .orderBy(sql`SUM(${transactions.amount}) DESC`);
+
+    const [{ totalSpending = 0 }] = await db
+      .select({
+        totalSpending: sql<number>`COALESCE(SUM(${transactions.amount}), 0)`,
+      })
+      .from(transactions)
+      .where(and(...whereConditions));
+
+    const formattedSpending = categorySpending.map(item => ({
+      category: item.category || 'Uncategorized',
+      totalAmount: Number(item.totalAmount),
+      transactionCount: Number(item.transactionCount),
+      percentage:
+        totalSpending > 0
+          ? Math.round(
+              (Number(item.totalAmount) / Number(totalSpending)) * 100 * 100
+            ) / 100
+          : 0,
+    }));
+
+    return {
+      categories: formattedSpending,
+      totalSpending: Number(totalSpending),
+      totalTransactions: formattedSpending.reduce(
+        (sum, item) => sum + item.transactionCount,
+        0
+      ),
+    };
+  }
 }

@@ -25,6 +25,12 @@ transactions.get(
   TransactionController.getSummary.bind(TransactionController)
 );
 
+// GET /api/spaces/:spaceId/transactions/category-spending - Fetch category-wise spending
+transactions.get(
+  '/category-spending',
+  TransactionController.getCategoryWiseSpending.bind(TransactionController)
+);
+
 // POST /api/spaces/:spaceId/transactions - Add a new transaction
 transactions.post(
   '/',
