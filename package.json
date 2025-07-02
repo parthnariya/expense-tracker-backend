@@ -4,8 +4,6 @@
   "type": "module",
   "scripts": {
     "start": "vercel dev",
-    "build": "bun run build:vercel",
-    "build:vercel": "bun build src/index.ts --outdir .vercel/output/functions/api --minify --target=bun --entrypoints=src/index.ts --splitting --format=esm",
     "deploy": "vercel",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
