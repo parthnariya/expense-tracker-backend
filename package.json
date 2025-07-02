@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "tsc && bun build src/index.ts --outdir ./dist --target=bun",
+    "dev": "bun --watch src/index.ts",
+    "build": "tsc && bun run build:vercel",
+    "build:vercel": "bun build src/index.ts --outdir .vercel/output/functions/api --minify --target=bun --entrypoints=src/index.ts --splitting --format=esm",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
@@ -42,7 +43,6 @@
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.35.0"
   },

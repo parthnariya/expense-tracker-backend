@@ -31,3 +31,4 @@ dummy_data.json
 devHelperScripts/
 
 dist/
+.vercel/

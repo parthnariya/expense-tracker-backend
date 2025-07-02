@@ -6,7 +6,6 @@ import { config } from '@/config/index.ts';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
-import { serve } from '@hono/node-server';
 import spaces from '@/routes/spaces.ts';
 // import importTransactions from '../devHelperScripts/importTransactions.ts';
 
@@ -50,16 +49,9 @@ app.route('/api/spaces', spaces);
 app.notFound(notFoundHandler);
 
 // Start server
-serve(
-  {
-    fetch: app.fetch,
-    port: config.port,
-  },
-  info => {
-    // eslint-disable-next-line no-console
-    console.log(
-      `🚀 Server is running on http://localhost:${info.port}\n📊 Health check: http://localhost:${info.port}/\n🔗 API Base: http://localhost:${info.port}/api`
-    );
-  }
-);
+export default {
+  port: config.port,
+  fetch: app.fetch,
+};
+
 // await importTransactions();
