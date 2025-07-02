@@ -1,8 +1,8 @@
 import { type NewSpace, type Space, spaces } from '@/db/schema/spaces.ts';
+import { and, eq } from 'drizzle-orm';
 import { ApiError } from '@/types/api.ts';
 import type { CreateSpaceInput } from '@/types/validation.ts';
 import { db } from '@/config/index.ts';
-import { eq } from 'drizzle-orm';
 
 export class SpaceService {
   /**
@@ -51,7 +51,7 @@ export class SpaceService {
       const [space] = await db
         .select()
         .from(spaces)
-        .where(eq(spaces.id, id))
+        .where(and(eq(spaces.id, id), eq(spaces.isDeleted, false)))
         .limit(1);
       return space || null;
     } catch (error) {
@@ -61,5 +61,17 @@ export class SpaceService {
 
       throw new ApiError('Failed to fetch space', 500, 'DATABASE_ERROR');
     }
+  }
+
+  /**
+   * Soft delete a space by id
+   */
+  static async deleteSpace(id: string): Promise<boolean> {
+    const [deletedSpace] = await db
+      .update(spaces)
+      .set({ isDeleted: true, updatedAt: new Date() })
+      .where(and(eq(spaces.id, id), eq(spaces.isDeleted, false)))
+      .returning({ id: spaces.id });
+    return !!deletedSpace;
   }
 }

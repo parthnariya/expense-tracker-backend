@@ -49,7 +49,10 @@ export class TransactionService {
     const { page = 1, limit = 10 } = pagination;
 
     // Build where conditions
-    const whereConditions = [eq(transactions.spaceId, spaceId)];
+    const whereConditions = [
+      eq(transactions.spaceId, spaceId),
+      eq(transactions.isDeleted, false),
+    ];
 
     if (type) {
       whereConditions.push(eq(transactions.type, type));
@@ -102,7 +105,8 @@ export class TransactionService {
       .where(
         and(
           eq(transactions.id, transactionId),
-          eq(transactions.spaceId, spaceId)
+          eq(transactions.spaceId, spaceId),
+          eq(transactions.isDeleted, false)
         )
       )
       .limit(1);
@@ -137,11 +141,13 @@ export class TransactionService {
     transactionId: string
   ): Promise<boolean> {
     const [deletedTransaction] = await db
-      .delete(transactions)
+      .update(transactions)
+      .set({ isDeleted: true, updatedAt: new Date() })
       .where(
         and(
           eq(transactions.id, transactionId),
-          eq(transactions.spaceId, spaceId)
+          eq(transactions.spaceId, spaceId),
+          eq(transactions.isDeleted, false)
         )
       )
       .returning({ id: transactions.id });

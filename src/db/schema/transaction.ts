@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   pgEnum,
   pgTable,
@@ -27,6 +28,7 @@ export const transactions = pgTable('transactions', {
   date: timestamp('date').notNull().defaultNow(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  isDeleted: boolean('is_deleted').notNull().default(false),
 });
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({

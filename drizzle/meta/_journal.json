@@ -15,6 +15,13 @@
       "when": 1751211623887,
       "tag": "0001_young_khan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751457454943,
+      "tag": "0002_puzzling_guardian",
+      "breakpoints": true
     }
   ]
 }
