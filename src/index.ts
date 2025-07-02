@@ -1,11 +1,12 @@
 import 'dotenv/config';
 import '@/types/hono.ts';
 import { Hono } from 'hono';
+import { config } from '@/config';
 import { cors } from 'hono/cors';
 import { errorHandler } from './middleware/errorHandler.js';
-import { handle } from '@hono/node-server/vercel';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
+import { serve } from '@hono/node-server';
 import spaces from '@/routes/spaces.ts';
 
 const app = new Hono();
@@ -44,11 +45,23 @@ app.get('/api', c => {
 // API routes
 app.route('/api/spaces', spaces);
 
-const handler = handle(app);
+// const handler = handle(app);
 
-export const GET = handler;
-export const POST = handler;
-export const PATCH = handler;
-export const PUT = handler;
-export const OPTIONS = handler;
-export default handle;
+// export const GET = handler;
+// export const POST = handler;
+// export const PATCH = handler;
+// export const PUT = handler;
+// export const OPTIONS = handler;
+serve(
+  {
+    fetch: app.fetch,
+
+    port: config.port,
+  },
+  info => {
+    // eslint-disable-next-line no-console
+    console.log(
+      `🚀 Server is running on http://localhost:${info.port}\n📊 Health check: http://localhost:${info.port}/\n🔗 API Base: http://localhost:${info.port}/api`
+    );
+  }
+);
