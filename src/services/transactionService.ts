@@ -160,14 +160,22 @@ export class TransactionService {
       .select({ total: sql<number>`COALESCE(SUM(${transactions.amount}), 0)` })
       .from(transactions)
       .where(
-        and(eq(transactions.spaceId, spaceId), eq(transactions.type, 'income'))
+        and(
+          eq(transactions.spaceId, spaceId),
+          eq(transactions.type, 'income'),
+          eq(transactions.isDeleted, false)
+        )
       );
 
     const [{ total: totalExpense = 0 }] = await db
       .select({ total: sql<number>`COALESCE(SUM(${transactions.amount}), 0)` })
       .from(transactions)
       .where(
-        and(eq(transactions.spaceId, spaceId), eq(transactions.type, 'expense'))
+        and(
+          eq(transactions.spaceId, spaceId),
+          eq(transactions.type, 'expense'),
+          eq(transactions.isDeleted, false)
+        )
       );
 
     return {
@@ -180,6 +188,7 @@ export class TransactionService {
     const whereConditions = [
       eq(transactions.spaceId, spaceId),
       eq(transactions.type, 'expense'),
+      eq(transactions.isDeleted, false),
     ];
 
     const categorySpending = await db
