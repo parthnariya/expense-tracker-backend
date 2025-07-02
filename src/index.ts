@@ -2,8 +2,9 @@ import 'dotenv/config';
 import '@/types/hono.ts';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import { Hono } from 'hono';
-import { config } from '@/config/index.ts';
+// import { config } from '@/config/index.ts';
 import { cors } from 'hono/cors';
+import { handle } from '@hono/node-server/vercel';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import spaces from '@/routes/spaces.ts';
@@ -48,10 +49,11 @@ app.route('/api/spaces', spaces);
 // 404 handler (must be last)
 app.notFound(notFoundHandler);
 
+export default handle(app);
 // Start server
-export default {
-  port: config.port,
-  fetch: app.fetch,
-};
+// export default {
+//   port: config.port,
+//   fetch: app.fetch,
+// };
 
 // await importTransactions();

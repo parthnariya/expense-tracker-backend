@@ -6,7 +6,7 @@
     "dev": "bun --watch src/index.ts",
     "build": "tsc && bun run build:vercel",
     "build:vercel": "bun build src/index.ts --outdir .vercel/output/functions/api --minify --target=bun --entrypoints=src/index.ts --splitting --format=esm",
-    "start": "node dist/index.js",
+    "start": "bun dist/index.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.{ts,json,md}",
