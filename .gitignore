@@ -32,3 +32,4 @@ devHelperScripts/
 
 dist/
 .vercel/
+.vercel
