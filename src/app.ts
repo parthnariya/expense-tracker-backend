@@ -14,7 +14,12 @@ app.use("*", prettyJSON());
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: (origin) => {
+      if (origin && /^https:\/\/[a-zA-Z0-9-]+\.vercel\.app$/.test(origin)) {
+        return origin;
+      }
+      return '';
+    },
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
   }),
