@@ -1,8 +1,11 @@
-import { type NewSpace, type Space, spaces } from '@/db/schema/spaces.ts';
 import { and, eq } from 'drizzle-orm';
-import { ApiError } from '@/types/api.ts';
-import type { CreateSpaceInput } from '@/types/validation.ts';
-import { db } from '@/config/index.ts';
+
+import type { NewSpace, Space } from '@/db/schema/spaces';
+import type { CreateSpaceInput } from '@/types/validation';
+
+import { db } from '@/config/index';
+import { spaces } from '@/db/schema/spaces';
+import { ApiError } from '@/types/api';
 
 export class SpaceService {
   /**

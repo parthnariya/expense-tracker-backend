@@ -1,12 +1,13 @@
+import { Hono } from 'hono';
+
+import { TransactionController } from '@/controllers/transactionController';
+import { validateBody, validateParams } from '@/middleware/validation';
 import {
   createTransactionSchema,
   // spaceIdSchema,
   transactionIdSchema,
   updateTransactionSchema,
-} from '@/types/validation.ts';
-import { validateBody, validateParams } from '@/middleware/validation.ts';
-import { Hono } from 'hono';
-import { TransactionController } from '@/controllers/transactionController.ts';
+} from '@/types/validation';
 
 const transactions = new Hono();
 

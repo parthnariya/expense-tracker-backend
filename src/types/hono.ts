@@ -1,4 +1,4 @@
-import { BaseValidatedData } from '@/middleware/validation.ts';
+import type { BaseValidatedData } from '@/middleware/validation';
 
 declare module 'hono' {
   interface ContextVariableMap {

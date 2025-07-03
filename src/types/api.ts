@@ -37,19 +37,18 @@ export class ApiError extends Error {
   }
 }
 
-export const createApiResponse = <T>(
-  data: T,
-  path: string
-): ApiResponse<T> => ({
-  success: true,
-  data,
-  meta: {
-    timestamp: new Date().toISOString(),
-    path,
-  },
-});
+export function createApiResponse<T>(data: T, path: string): ApiResponse<T> {
+  return {
+    success: true,
+    data,
+    meta: {
+      timestamp: new Date().toISOString(),
+      path,
+    },
+  };
+}
 
-export const createPaginationResponse = <T>(
+export function createPaginationResponse<T>(
   data: T[],
   path: string,
   paginationData: {
@@ -58,7 +57,7 @@ export const createPaginationResponse = <T>(
     total: number;
     totalPages: number;
   }
-): PaginatedResponse<T> => {
+): PaginatedResponse<T> {
   return {
     success: true,
     data,
@@ -68,20 +67,22 @@ export const createPaginationResponse = <T>(
       pagination: paginationData,
     },
   };
-};
+}
 
-export const createErrorResponse = (
+export function createErrorResponse(
   error: ApiError,
   path: string
-): ApiResponse<undefined> => ({
-  success: false,
-  error: {
-    message: error.message,
-    code: error.code,
-    details: error.details,
-  },
-  meta: {
-    timestamp: new Date().toISOString(),
-    path,
-  },
-});
+): ApiResponse<undefined> {
+  return {
+    success: false,
+    error: {
+      message: error.message,
+      code: error.code,
+      details: error.details,
+    },
+    meta: {
+      timestamp: new Date().toISOString(),
+      path,
+    },
+  };
+}

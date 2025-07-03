@@ -1,23 +1,24 @@
-import { Context, Next } from 'hono';
+import type { Context, Next } from 'hono';
+
 import { z } from 'zod';
 
-export type BaseValidatedData = {
+export interface BaseValidatedData {
   body?: unknown;
   query?: unknown;
   params?: unknown;
-};
+}
 
-export type ValidatedData<
+export interface ValidatedData<
   TBody = unknown,
   TQuery = unknown,
   TParams = unknown,
-> = {
+> {
   body?: TBody;
   query?: TQuery;
   params?: TParams;
-};
+}
 
-export const validateBody = <T extends z.ZodType>(schema: T) => {
+export function validateBody<T extends z.ZodType>(schema: T) {
   return async (c: Context, next: Next) => {
     try {
       const body: unknown = await c.req.json();
@@ -32,9 +33,9 @@ export const validateBody = <T extends z.ZodType>(schema: T) => {
       throw new Error('Invalid JSON body');
     }
   };
-};
+}
 
-export const validateQuery = <T extends z.ZodType>(schema: T) => {
+export function validateQuery<T extends z.ZodType>(schema: T) {
   return async (c: Context, next: Next) => {
     try {
       const queryParams = c.req.query();
@@ -51,9 +52,9 @@ export const validateQuery = <T extends z.ZodType>(schema: T) => {
       throw new Error('Invalid query parameters');
     }
   };
-};
+}
 
-export const validateParams = <T extends z.ZodType>(schema: T) => {
+export function validateParams<T extends z.ZodType>(schema: T) {
   return async (c: Context, next: Next) => {
     try {
       const params: Record<string, string> = c.req.param();
@@ -67,4 +68,4 @@ export const validateParams = <T extends z.ZodType>(schema: T) => {
       throw new Error('Invalid path parameters');
     }
   };
-};
+}

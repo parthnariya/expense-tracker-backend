@@ -1,2 +1,2 @@
-export * from './database.ts';
-export * from './environment.ts';
+export * from './database';
+export * from './environment';

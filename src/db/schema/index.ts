@@ -1,2 +1,2 @@
-export * from './spaces.ts';
-export * from './transaction.ts';
+export * from './spaces';
+export * from './transaction';

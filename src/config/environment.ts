@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env */
 export const config = {
   database: {
     url: process.env.DATABASE_URL!,

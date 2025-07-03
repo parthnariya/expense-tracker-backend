@@ -1,21 +1,22 @@
+import type { Context } from 'hono';
+
+import type { ValidatedData } from '@/middleware/validation';
+import type {
+  PaginationOptions,
+  TransactionFilters,
+} from '@/services/transactionService';
+import type {
+  CreateTransactionInput,
+  UpdateTransactionInput,
+} from '@/types/validation';
+
+import { TransactionService } from '@/services/transactionService';
 import {
   ApiError,
   createApiResponse,
   createErrorResponse,
   createPaginationResponse,
-} from '@/types/api.ts';
-import {
-  CreateTransactionInput,
-  UpdateTransactionInput,
-} from '@/types/validation.ts';
-import {
-  PaginationOptions,
-  TransactionFilters,
-  TransactionService,
-} from '@/services/transactionService.ts';
-
-import { Context } from 'hono';
-import { ValidatedData } from '@/middleware/validation.ts';
+} from '@/types/api';
 
 export class TransactionController {
   static async getTransactions(c: Context) {
@@ -42,10 +43,10 @@ export class TransactionController {
 
     // Parse pagination
     if (query.page) {
-      pagination.page = parseInt(query.page);
+      pagination.page = Number.parseInt(query.page);
     }
     if (query.limit) {
-      pagination.limit = parseInt(query.limit);
+      pagination.limit = Number.parseInt(query.limit);
     }
 
     const { limit, page, total, totalPages, transactions } =

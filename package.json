@@ -1,12 +1,16 @@
 {
   "name": "expense-tracker-backend",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "scripts": {
-    "start": "bun --watch ./src/index.ts",
-    "deploy": "vercel",
-    "lint": "eslint src/**/*.ts",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "dev": "tsx watch src/index.ts",
+    "start": "node ./dist/src/index.js",
+    "build:compile": "tsc && tsc-alias",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write src/**/*.{ts,json,md}",
     "format:check": "prettier --check src/**/*.{ts,json,md}",
     "type-check": "tsc --noEmit",
@@ -16,9 +20,6 @@
     "db:studio": "drizzle-kit studio --config=drizzle.config.ts",
     "db:push": "drizzle-kit push --config=drizzle.config.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@hono/node-server": "^1.14.4",
     "@neondatabase/serverless": "^1.0.1",
@@ -28,22 +29,21 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.0",
+    "@antfu/eslint-config": "^4.16.2",
     "@types/node": "^24.0.7",
-    "@typescript-eslint/eslint-plugin": "^8.35.0",
-    "@typescript-eslint/parser": "^8.35.0",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.30.0",
     "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-format": "^1.0.1",
     "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.35.0",
-    "vercel": "^44.2.8"
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   },
   "lint-staged": {
     "*.{js,ts}": [

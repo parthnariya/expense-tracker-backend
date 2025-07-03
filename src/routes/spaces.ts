@@ -1,8 +1,10 @@
 import { Hono } from 'hono';
-import { SpaceController } from '@/controllers/spaceController.ts';
-import { createSpaceSchema } from '@/types/validation.ts';
-import transactions from './transactions.ts';
-import { validateBody } from '@/middleware/validation.ts';
+
+import { SpaceController } from '@/controllers/spaceController';
+import { validateBody } from '@/middleware/validation';
+import { createSpaceSchema } from '@/types/validation';
+
+import transactions from './transactions';
 
 const spaces = new Hono();
 

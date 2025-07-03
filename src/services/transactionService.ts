@@ -1,10 +1,9 @@
-import {
-  NewTransaction,
-  Transaction,
-  transactions,
-} from '@/db/schema/transaction.ts';
 import { and, desc, eq, sql } from 'drizzle-orm';
-import { db } from '@/config/index.ts';
+
+import type { NewTransaction, Transaction } from '@/db/schema/transaction';
+
+import { db } from '@/config/index';
+import { transactions } from '@/db/schema/transaction';
 
 export interface TransactionFilters {
   type?: 'income' | 'expense';

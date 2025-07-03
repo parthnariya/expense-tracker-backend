@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   integer,
@@ -7,8 +8,8 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
-import { spaces } from './spaces.ts';
+
+import { spaces } from './spaces';
 
 export const transactionTypeEnum = pgEnum('transaction_type', [
   'income',

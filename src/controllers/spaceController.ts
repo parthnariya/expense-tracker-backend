@@ -1,8 +1,10 @@
-import { Context } from 'hono';
-import { CreateSpaceInput } from '@/types/validation.ts';
-import { SpaceService } from '@/services/spaceService.ts';
-import { ValidatedData } from '@/middleware/validation.ts';
-import { createApiResponse } from '@/types/api.ts';
+import type { Context } from 'hono';
+
+import type { ValidatedData } from '@/middleware/validation';
+import type { CreateSpaceInput } from '@/types/validation';
+
+import { SpaceService } from '@/services/spaceService';
+import { createApiResponse } from '@/types/api';
 
 export class SpaceController {
   static async createSpace(c: Context) {
