@@ -14,12 +14,7 @@ app.use("*", prettyJSON());
 app.use(
   "*",
   cors({
-    origin: (origin) => {
-      if (origin && /^https:\/\/[a-zA-Z0-9-]+\.vercel\.app$/.test(origin)) {
-        return origin;
-      }
-      return '';
-    },
+    origin: ["*"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
   }),
