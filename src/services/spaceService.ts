@@ -1,11 +1,11 @@
-import { and, eq } from 'drizzle-orm';
+import { and, eq } from "drizzle-orm";
 
-import type { NewSpace, Space } from '@/db/schema/spaces';
-import type { CreateSpaceInput } from '@/types/validation';
+import type { NewSpace, Space } from "@/db/schema/spaces";
+import type { CreateSpaceInput } from "@/types/validation";
 
-import { db } from '@/config/index';
-import { spaces } from '@/db/schema/spaces';
-import { ApiError } from '@/types/api';
+import { db } from "@/config/index";
+import { spaces } from "@/db/schema/spaces";
+import { ApiError } from "@/types/api";
 
 export class SpaceService {
   /**
@@ -24,25 +24,26 @@ export class SpaceService {
         .returning();
 
       if (!createdSpace) {
-        throw new ApiError('Failed to create space', 500, 'CREATE_FAILED');
+        throw new ApiError("Failed to create space", 500, "CREATE_FAILED");
       }
 
       return createdSpace;
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof ApiError) {
         throw error;
       }
 
       // Handle database constraint violations
-      if (error instanceof Error && error.message.includes('duplicate')) {
+      if (error instanceof Error && error.message.includes("duplicate")) {
         throw new ApiError(
-          'A space with this name already exists',
+          "A space with this name already exists",
           409,
-          'DUPLICATE_SPACE'
+          "DUPLICATE_SPACE",
         );
       }
 
-      throw new ApiError('Failed to create space', 500, 'DATABASE_ERROR');
+      throw new ApiError("Failed to create space", 500, "DATABASE_ERROR");
     }
   }
 
@@ -57,12 +58,13 @@ export class SpaceService {
         .where(and(eq(spaces.id, id), eq(spaces.isDeleted, false)))
         .limit(1);
       return space || null;
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof ApiError) {
         throw error;
       }
 
-      throw new ApiError('Failed to fetch space', 500, 'DATABASE_ERROR');
+      throw new ApiError("Failed to fetch space", 500, "DATABASE_ERROR");
     }
   }
 

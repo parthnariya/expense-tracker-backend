@@ -11,8 +11,6 @@
     "build:compile": "tsc && tsc-alias",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write src/**/*.{ts,json,md}",
-    "format:check": "prettier --check src/**/*.{ts,json,md}",
     "type-check": "tsc --noEmit",
     "prepare": "husky",
     "db:generate": "drizzle-kit generate --config=drizzle.config.ts",
@@ -33,13 +31,10 @@
     "@types/node": "^24.0.7",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.30.0",
-    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-format": "^1.0.1",
-    "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3",
@@ -47,11 +42,10 @@
   },
   "lint-staged": {
     "*.{js,ts}": [
-      "eslint --fix",
-      "prettier --write"
+      "eslint --fix"
     ],
     "*.{json,md,yml,yaml}": [
-      "prettier --write"
+      "eslint --fix"
     ]
   }
 }

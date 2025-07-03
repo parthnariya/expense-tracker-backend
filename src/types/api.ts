@@ -30,10 +30,10 @@ export class ApiError extends Error {
     public message: string,
     public statusCode: number = 500,
     public code?: string,
-    public details?: unknown
+    public details?: unknown,
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
   }
 }
 
@@ -56,7 +56,7 @@ export function createPaginationResponse<T>(
     limit: number;
     total: number;
     totalPages: number;
-  }
+  },
 ): PaginatedResponse<T> {
   return {
     success: true,
@@ -71,7 +71,7 @@ export function createPaginationResponse<T>(
 
 export function createErrorResponse(
   error: ApiError,
-  path: string
+  path: string,
 ): ApiResponse<undefined> {
   return {
     success: false,

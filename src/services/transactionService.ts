@@ -1,12 +1,12 @@
-import { and, desc, eq, sql } from 'drizzle-orm';
+import { and, desc, eq, sql } from "drizzle-orm";
 
-import type { NewTransaction, Transaction } from '@/db/schema/transaction';
+import type { NewTransaction, Transaction } from "@/db/schema/transaction";
 
-import { db } from '@/config/index';
-import { transactions } from '@/db/schema/transaction';
+import { db } from "@/config/index";
+import { transactions } from "@/db/schema/transaction";
 
 export interface TransactionFilters {
-  type?: 'income' | 'expense';
+  type?: "income" | "expense";
   category?: string;
   startDate?: Date;
   endDate?: Date;
@@ -20,7 +20,7 @@ export interface PaginationOptions {
 export class TransactionService {
   static async createTransaction(
     spaceId: string,
-    data: Omit<NewTransaction, 'spaceId'>
+    data: Omit<NewTransaction, "spaceId">,
   ): Promise<Transaction> {
     const [transaction] = await db
       .insert(transactions)
@@ -36,7 +36,7 @@ export class TransactionService {
   static async getTransactions(
     spaceId: string,
     filters: TransactionFilters = {},
-    pagination: PaginationOptions = {}
+    pagination: PaginationOptions = {},
   ): Promise<{
     transactions: Transaction[];
     total: number;
@@ -96,7 +96,7 @@ export class TransactionService {
 
   static async getTransactionById(
     spaceId: string,
-    transactionId: string
+    transactionId: string,
   ): Promise<Transaction | null> {
     const [transaction] = await db
       .select()
@@ -105,8 +105,8 @@ export class TransactionService {
         and(
           eq(transactions.id, transactionId),
           eq(transactions.spaceId, spaceId),
-          eq(transactions.isDeleted, false)
-        )
+          eq(transactions.isDeleted, false),
+        ),
       )
       .limit(1);
 
@@ -116,7 +116,7 @@ export class TransactionService {
   static async updateTransaction(
     spaceId: string,
     transactionId: string,
-    data: Partial<Omit<NewTransaction, 'spaceId' | 'id'>>
+    data: Partial<Omit<NewTransaction, "spaceId" | "id">>,
   ): Promise<Transaction | null> {
     const [transaction] = await db
       .update(transactions)
@@ -127,8 +127,8 @@ export class TransactionService {
       .where(
         and(
           eq(transactions.id, transactionId),
-          eq(transactions.spaceId, spaceId)
-        )
+          eq(transactions.spaceId, spaceId),
+        ),
       )
       .returning();
 
@@ -137,7 +137,7 @@ export class TransactionService {
 
   static async deleteTransaction(
     spaceId: string,
-    transactionId: string
+    transactionId: string,
   ): Promise<boolean> {
     const [deletedTransaction] = await db
       .update(transactions)
@@ -146,8 +146,8 @@ export class TransactionService {
         and(
           eq(transactions.id, transactionId),
           eq(transactions.spaceId, spaceId),
-          eq(transactions.isDeleted, false)
-        )
+          eq(transactions.isDeleted, false),
+        ),
       )
       .returning({ id: transactions.id });
 
@@ -161,9 +161,9 @@ export class TransactionService {
       .where(
         and(
           eq(transactions.spaceId, spaceId),
-          eq(transactions.type, 'income'),
-          eq(transactions.isDeleted, false)
-        )
+          eq(transactions.type, "income"),
+          eq(transactions.isDeleted, false),
+        ),
       );
 
     const [{ total: totalExpense = 0 }] = await db
@@ -172,9 +172,9 @@ export class TransactionService {
       .where(
         and(
           eq(transactions.spaceId, spaceId),
-          eq(transactions.type, 'expense'),
-          eq(transactions.isDeleted, false)
-        )
+          eq(transactions.type, "expense"),
+          eq(transactions.isDeleted, false),
+        ),
       );
 
     return {
@@ -186,7 +186,7 @@ export class TransactionService {
   static async getCategoryWiseSpending(spaceId: string) {
     const whereConditions = [
       eq(transactions.spaceId, spaceId),
-      eq(transactions.type, 'expense'),
+      eq(transactions.type, "expense"),
       eq(transactions.isDeleted, false),
     ];
 
@@ -209,14 +209,14 @@ export class TransactionService {
       .where(and(...whereConditions));
 
     const formattedSpending = categorySpending.map(item => ({
-      category: item.category || 'Uncategorized',
+      category: item.category || "Uncategorized",
       totalAmount: Number(item.totalAmount),
       transactionCount: Number(item.transactionCount),
       percentage:
         totalSpending > 0
           ? Math.round(
-              (Number(item.totalAmount) / Number(totalSpending)) * 100 * 100
-            ) / 100
+            (Number(item.totalAmount) / Number(totalSpending)) * 100 * 100,
+          ) / 100
           : 0,
     }));
 
@@ -225,7 +225,7 @@ export class TransactionService {
       totalSpending: Number(totalSpending),
       totalTransactions: formattedSpending.reduce(
         (sum, item) => sum + item.transactionCount,
-        0
+        0,
       ),
     };
   }

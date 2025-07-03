@@ -1,4 +1,4 @@
-import { relations } from 'drizzle-orm';
+import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -7,29 +7,29 @@ import {
   text,
   timestamp,
   uuid,
-} from 'drizzle-orm/pg-core';
+} from "drizzle-orm/pg-core";
 
-import { spaces } from './spaces';
+import { spaces } from "./spaces";
 
-export const transactionTypeEnum = pgEnum('transaction_type', [
-  'income',
-  'expense',
+export const transactionTypeEnum = pgEnum("transaction_type", [
+  "income",
+  "expense",
 ]);
 
-export const transactions = pgTable('transactions', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  spaceId: uuid('space_id')
+export const transactions = pgTable("transactions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  spaceId: uuid("space_id")
     .notNull()
-    .references(() => spaces.id, { onDelete: 'cascade' }),
-  title: text('title').notNull(),
-  description: text('description'),
-  amount: integer('amount').notNull(),
-  type: transactionTypeEnum('type').notNull(),
-  category: text('category'),
-  date: timestamp('date').notNull().defaultNow(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
-  isDeleted: boolean('is_deleted').notNull().default(false),
+    .references(() => spaces.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  description: text("description"),
+  amount: integer("amount").notNull(),
+  type: transactionTypeEnum("type").notNull(),
+  category: text("category"),
+  date: timestamp("date").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  isDeleted: boolean("is_deleted").notNull().default(false),
 });
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({

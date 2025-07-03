@@ -6,5 +6,5 @@ export const config = {
   port: Number.isNaN(Number(process.env.PORT))
     ? 3000
     : Number(process.env.PORT),
-  nodeEnv: process.env.NODE_ENV || 'development',
+  nodeEnv: process.env.NODE_ENV || "development",
 } as const;
