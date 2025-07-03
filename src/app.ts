@@ -11,14 +11,14 @@ const app = new Hono();
 
 app.use("*", logger());
 app.use("*", prettyJSON());
-// app.use(
-//   "*",
-//   cors({
-//     origin: ["*"],
-//     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//     allowHeaders: ["Content-Type", "Authorization"],
-//   }),
-// );
+app.use(
+  "*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 app.use("*", errorHandler);
 
